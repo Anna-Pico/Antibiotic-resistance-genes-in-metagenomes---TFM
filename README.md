@@ -13,7 +13,7 @@ Tools used to achieve this goals are
 And it is structured in 3 files:
 
 1) *analisi de sequencies.sh*: this shell script contains the code for the analysis of one metagenome. 
-2) *referenceARG.dmnd*: The database that contains the reference sequences for the antibiotic resistance genes. It is based in the ARGminer-v1.1.1-A (2019) and it has been slightly modified to facilitate the agrupation by class of antibiotic.
+2) *referenceARG.dmnd*: The database that contains the reference sequences for the antibiotic resistance genes. It is based in the ARGminer-v1.1.1-A (2019) and it has been slightly modified to facilitate the agrupation by class of antibiotic (Arango-Argoty, G. A., et al., 2020).
 3) *loop.sh* This file allows to process continuously all the fastq files present in the folder.
 
 The required input is a fastq file containing all the genomic sequences (metagenome). The output is a csv file with two columns that contains the counts of reads related to each antibiotic class. Besides, we obtain raw outputs from the Diamond and Metaxa tools. 
