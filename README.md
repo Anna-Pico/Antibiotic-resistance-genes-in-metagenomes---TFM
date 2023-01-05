@@ -18,7 +18,7 @@ And it is structured in 3 files:
 
 The required input is a fastq file containing all the genomic sequences (metagenome). The output is a csv file with two columns that contains the counts of reads related to each antibiotic class. Besides, we obtain raw outputs from the Diamond and Metaxa tools. 
 
-* This repositore also includes an R code that has been used to analyse 56 resistomes from wastewater samples. Although the code is data-dependent and can not be run by a third parties it may be useful to better understand our work or can be an inspiration for future studies.
+\* This repositore also includes an R code that has been used to analyse 56 resistomes from wastewater samples. Although the code is data-dependent and can not be run by a third parties it may be useful to better understand our work or can be an inspiration for future studies.
 
 References:
 
