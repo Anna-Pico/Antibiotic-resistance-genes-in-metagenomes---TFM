@@ -38,6 +38,7 @@ ggplot(data=LOGFILE_DNA_extractions, aes(x=reorder(ID, GC), y=GC, fill=Loc)) +
   scale_fill_discrete(name="Barri", labels=c("Besos", "Carmel", "Poblenou", "Sant Gervasi"))+
   scale_y_continuous(expand=expansion(mult=c(0, .1)))+
   scale_x_discrete(name = "ID")+
+  ylab("GC (%)")+
   theme_classic()
 
 ggplot(data=LOGFILE_DNA_extractions, aes(x=reorder(ID, Q30), y=Q30, fill=Loc)) +
@@ -48,6 +49,7 @@ ggplot(data=LOGFILE_DNA_extractions, aes(x=reorder(ID, Q30), y=Q30, fill=Loc)) +
   scale_fill_discrete(name="Barri", labels=c("Besos", "Carmel", "Poblenou", "Sant Gervasi"))+
   scale_y_continuous(expand=expansion(mult=c(0, .1)))+
   scale_x_discrete(name = "ID")+
+  ylab("Q30 (%)")+
   theme_classic()
 
 ggplot(data=LOGFILE_DNA_extractions, aes(x=reorder(ID, Reads), y=Reads, fill=Loc)) +
@@ -58,22 +60,23 @@ ggplot(data=LOGFILE_DNA_extractions, aes(x=reorder(ID, Reads), y=Reads, fill=Loc
   scale_fill_discrete(name="Barri", labels=c("Besos", "Carmel", "Poblenou", "Sant Gervasi"))+
   scale_y_continuous(expand=expansion(mult=c(0, .1)))+
   scale_x_discrete(name = "ID")+
-  theme_classic()
+  theme_classic()+
+  theme(axis.text.x = element_text(angle=45, hjust=1))
 
-## Diferències de reads i qualitat entre llocs
+## DiferÃ¨ncies de reads i qualitat entre llocs
 
 # boxplot(Reads ~ Loc, LOGFILE_DNA_extractions)
 ARL <- aov(Reads ~ Loc, data=LOGFILE_DNA_extractions)
-summary(ARL) # No hi ha diferències
+summary(ARL) # No hi ha diferÃ¨ncies
 # boxplot(Total_bp ~ Loc, LOGFILE_DNA_extractions)
 ABL <- aov(Total_bp ~ Loc, data=LOGFILE_DNA_extractions)
-summary(ABL) # No hi ha diferències
+summary(ABL) # No hi ha diferÃ¨ncies
 # boxplot(GC ~ Loc, LOGFILE_DNA_extractions)
 AGCL <- aov(GC ~ Loc, data=LOGFILE_DNA_extractions)
-summary(AGCL) # Hi ha diferències
-TukeyHSD(AGCL) # SGVS == CRML, la resta són diferents
+summary(AGCL) # Hi ha diferÃ¨ncies
+TukeyHSD(AGCL) # SGVS == CRML, la resta sÃ³n diferents
 
-## Gràfic diferències GC per barri 
+## GrÃ fic diferÃ¨ncies GC per barri 
 # ggplot(LOGFILE_DNA_extractions,aes(Loc,GC, fill=Loc))+ 
 #   geom_boxplot()+
 #   geom_line(data=tibble(x=c(1,2), y=c(60,60)),
@@ -104,31 +107,31 @@ leveneTest(AGCL) # Es compleix homosadesticitat
 
 # boxplot(Q30 ~ Loc, LOGFILE_DNA_extractions)
 AQL <- aov(Q30 ~ Loc, data=LOGFILE_DNA_extractions)
-summary(AQL) # No hi ha diferències
+summary(AQL) # No hi ha diferÃ¨ncies
 
-## Diferències de reads i qualitat entre campanyes
+## DiferÃ¨ncies de reads i qualitat entre campanyes
 
 # boxplot(Reads ~ Campaign, LOGFILE_DNA_extractions)
-summary(aov(Reads ~ Campaign, LOGFILE_DNA_extractions)) # No hi ha diferències
+summary(aov(Reads ~ Campaign, LOGFILE_DNA_extractions)) # No hi ha diferÃ¨ncies
 # boxplot(Total_bp ~ Campaign, LOGFILE_DNA_extractions)
-summary(aov(Total_bp ~ Campaign, LOGFILE_DNA_extractions)) # No hi ha diferències
+summary(aov(Total_bp ~ Campaign, LOGFILE_DNA_extractions)) # No hi ha diferÃ¨ncies
 # boxplot(GC ~ Campaign, LOGFILE_DNA_extractions)
-summary(aov(GC ~ Campaign, LOGFILE_DNA_extractions)) # No hi ha diferències
+summary(aov(GC ~ Campaign, LOGFILE_DNA_extractions)) # No hi ha diferÃ¨ncies
 # boxplot(Q30 ~ Campaign, LOGFILE_DNA_extractions)
-summary(aov(Q30 ~ Campaign, LOGFILE_DNA_extractions)) # No hi ha diferències
+summary(aov(Q30 ~ Campaign, LOGFILE_DNA_extractions)) # No hi ha diferÃ¨ncies
 
-## Diferències de reads i qualitat segons si han passat el control de qualitat
+## DiferÃ¨ncies de reads i qualitat segons si han passat el control de qualitat
 # boxplot(Reads ~ QC, LOGFILE_DNA_extractions)
 ARQ <- aov(Reads ~ QC, data=LOGFILE_DNA_extractions)
-summary(ARQ) # No hi ha diferències
+summary(ARQ) # No hi ha diferÃ¨ncies
 # boxplot(Total_bp ~ QC, LOGFILE_DNA_extractions)
 ABQ <- aov(Total_bp ~ QC, data=LOGFILE_DNA_extractions)
-summary(ABQ) # No hi ha diferències
+summary(ABQ) # No hi ha diferÃ¨ncies
 # boxplot(GC ~ QC, LOGFILE_DNA_extractions)
 AGCQ <- aov(GC ~ QC, data=LOGFILE_DNA_extractions)
-summary(AGCQ) # Les que han passat el control de qualitat tenen significativament més GC
+summary(AGCQ) # Les que han passat el control de qualitat tenen significativament mÃ©s GC
 
-## Gràfic diferències de GC en funció del control de qualitat
+## GrÃ fic diferÃ¨ncies de GC en funciÃ³ del control de qualitat
 # ggplot(LOGFILE_DNA_extractions,aes(QC,GC, fill=QC))+ 
 #   geom_boxplot()+
 #   geom_line(data=tibble(x=c(1,2), y=c(60,60)),
@@ -145,9 +148,9 @@ oneway.test(GC ~ QC, data=LOGFILE_DNA_extractions)
 
 # boxplot(Q30 ~ QC, LOGFILE_DNA_extractions)
 AQQ <- aov(Q30 ~ QC, data=LOGFILE_DNA_extractions)
-summary(AQQ) # Les que no han passat el primer control tenen significativament més qualitat
+summary(AQQ) # Les que no han passat el primer control tenen significativament mÃ©s qualitat
 
-## Gràfic diferències Q30 segons si han passat el primer control de qualitat
+## GrÃ fic diferÃ¨ncies Q30 segons si han passat el primer control de qualitat
 # ggplot(LOGFILE_DNA_extractions,aes(QC,Q30, fill=QC))+ 
 #   geom_boxplot()+
 #   geom_line(data=tibble(x=c(1,2), y=c(95,95)),
@@ -157,23 +160,23 @@ summary(AQQ) # Les que no han passat el primer control tenen significativament m
 #   labs(x="Quality Control", y="Q30 %", title="A")+
 #   scale_fill_discrete(name="Quality Control", labels=c("No", "Yes"))
 
-shapiro.test(x=residuals(object=AQQ)) # No normalitat repetim el test fent-ne un de no paramètric
+shapiro.test(x=residuals(object=AQQ)) # No normalitat repetim el test fent-ne un de no paramÃ¨tric
 leveneTest(AQQ)
 kruskal.test(Q30 ~ QC, data=LOGFILE_DNA_extractions)
 
-## Diferències de reads i qualitat segons el tipus de llibreria
+## DiferÃ¨ncies de reads i qualitat segons el tipus de llibreria
 
 # boxplot(Reads ~ Library_QC, LOGFILE_DNA_extractions)
 ARL <- aov(Reads ~ Library_QC, data=LOGFILE_DNA_extractions)
-summary(ARL) # No hi ha diferències
+summary(ARL) # No hi ha diferÃ¨ncies
 # boxplot(Total_bp ~ Library_QC, LOGFILE_DNA_extractions)
 ABL <- aov(Total_bp ~ Library_QC, data=LOGFILE_DNA_extractions)
-summary(ABL) # No hi ha diferències
+summary(ABL) # No hi ha diferÃ¨ncies
 # boxplot(GC ~ Library_QC, LOGFILE_DNA_extractions)
 AGCL <- aov(GC ~ Library_QC, data=LOGFILE_DNA_extractions)
-summary(AGCL) # Llibreria TS té significativament més GC
+summary(AGCL) # Llibreria TS tÃ© significativament mÃ©s GC
 
-## Gràfic GC en funció de la llibreria 
+## GrÃ fic GC en funciÃ³ de la llibreria 
 # ggplot(LOGFILE_DNA_extractions,aes(Library_QC,GC, fill=Library_QC))+ 
 #   geom_boxplot()+
 #   geom_line(data=tibble(x=c(1,2), y=c(60,60)),
@@ -183,15 +186,15 @@ summary(AGCL) # Llibreria TS té significativament més GC
 #   labs(x="Library", y="GC", title="C")+
 #   scale_fill_discrete(name="Library", labels=c("TS", "TSF"))
 
-shapiro.test(x=residuals(object=AGCL)) # No hi ha normalitat, repetim test no paramètric
+shapiro.test(x=residuals(object=AGCL)) # No hi ha normalitat, repetim test no paramÃ¨tric
 leveneTest(AGCL)
 kruskal.test(GC ~ Library_QC, data=LOGFILE_DNA_extractions)
 
 # boxplot(Q30 ~ Library_QC, LOGFILE_DNA_extractions)
 AQL <- aov(Q30 ~ Library_QC, data=LOGFILE_DNA_extractions)
-summary(AQL) # Llibreria TSF té significativament més qualitat.
+summary(AQL) # Llibreria TSF tÃ© significativament mÃ©s qualitat.
 
-## Gràfic diferències en Q30 segons llibreria
+## GrÃ fic diferÃ¨ncies en Q30 segons llibreria
 # ggplot(LOGFILE_DNA_extractions,aes(Library_QC,Q30, fill=Library_QC))+ 
 #   geom_boxplot()+
 #   geom_line(data=tibble(x=c(1,2), y=c(95,95)),
@@ -201,7 +204,7 @@ summary(AQL) # Llibreria TSF té significativament més qualitat.
 #   labs(x="Library", y="Q30 %", title="B")+
 #   scale_fill_discrete(name="Library", labels=c("TS", "TSF"))
 
-shapiro.test(x=residuals(object=AQL)) # No normalitat repetim test no paramètric
+shapiro.test(x=residuals(object=AQL)) # No normalitat repetim test no paramÃ¨tric
 leveneTest(AQL) # No homosadesticitat
 kruskal.test(Q30 ~ Library_QC, data=LOGFILE_DNA_extractions)
 
@@ -230,7 +233,7 @@ shapiro.test(x=residuals(object=RGL))
 leveneTest(RGL) # No homosadesticitat, repetim el test sense assumir igualtat de variances
 oneway.test(norm_resistance_genes ~ Loc, data=LOGFILE_DNA_extractions)
 pairwise.t.test(LOGFILE_DNA_extractions$norm_resistance_genes, LOGFILE_DNA_extractions$Loc,
-                p.adjust.method = "BH", pool.sd = FALSE) # SGVS significativament major que PBN. La resta no presenten diferències
+                p.adjust.method = "BH", pool.sd = FALSE) # SGVS significativament major que PBN. La resta no presenten diferÃ¨ncies
 
 ggplot(LOGFILE_DNA_extractions,aes(Loc,norm_resistance_genes, fill=Loc))+ 
   geom_boxplot()+
@@ -274,7 +277,7 @@ ggplot(LOGFILE_DNA_extractions,aes(Loc,norm_resistance_genes, fill=Loc))+
 
 ## Classes de ARG ##### 
 
-# Famílies que ens interessen (cal sumar diferent el grup others)
+# FamÃ­lies que ens interessen (cal sumar diferent el grup others)
 
 resistome <- data.frame(LOGFILE_DNA_extractions$Sample,
                         LOGFILE_DNA_extractions$Loc,
@@ -360,19 +363,19 @@ antibiotics_consum$Zona <- as.factor(antibiotics_consum$Zona)
 
 # Total antibiotic consumption per year (each month as a sample)
 total_antibiotics <- subset(antibiotics_consum, Compound == "Qualsevol_antibiotic")
-# boxplot(nddd_hab ~ Zona, data=total_antibiotics, ylab="nddd/(inhabitant · month)")
+# boxplot(nddd_hab ~ Zona, data=total_antibiotics, ylab="nddd/(inhabitant Â· month)")
 
 anova <- aov(nddd_hab ~ Zona, data=total_antibiotics)
 summary(anova)
 shapiro.test(anova$residuals)
 leveneTest(anova)
-TukeyHSD(anova) #PBN significativament més baix
+TukeyHSD(anova) #PBN significativament mÃ©s baix
 
 colors <- c("#7CAE00", "#00BFC4", "#C77CFF")
 ggplot(data=total_antibiotics, aes(x=Zona, y=nddd_hab, fill=Zona))+
   geom_boxplot()+
   xlab("Barri")+
-  ylab("nddd/(inhabitant · month)")+
+  ylab("nddd/(inhabitant Â· month)")+
   scale_x_discrete(name="Barri", labels=c("CRML", "PBN","SGVS"))+
   scale_fill_manual(name="Barri", values=colors)+
   geom_line(data=tibble(x=c(1,2), y=c(0.51,0.51)),
@@ -399,7 +402,7 @@ diversity <- data.frame(sppr, resistome$Loc)
 divaov <- aov(diversity$sppr ~ diversity$resistome.Loc)
 summary(aov(diversity$sppr ~ diversity$resistome.Loc))
 
-## Índex de Shannon-Weaver segons el barri
+## Ãndex de Shannon-Weaver segons el barri
 # ggplot(diversity,aes(x=resistome.Loc, y=sppr, fill=resistome.Loc))+ 
 #   geom_boxplot()+
 #   geom_line(data=tibble(x=c(1,2), y=c(1.57, 1.57)),
